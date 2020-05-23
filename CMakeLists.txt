@@ -41,7 +41,7 @@ set(--warn-extra $<$<BOOL:${CAN_WARN_EXTRA}>:-Wextra>)
 
 add_library(${PROJECT_NAME})
 add_library(netlify::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
-file(GLOB sources CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.cxx")
+file(GLOB_RECURSE sources CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.cxx")
 target_sources(${PROJECT_NAME} PRIVATE ${sources})
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_compile_options(${PROJECT_NAME}

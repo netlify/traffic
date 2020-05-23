@@ -10,8 +10,8 @@ inline constexpr track_t track { };
 
 } /* namespace traffic */
 
-// TODO: Replace with source_location when possible. That said, this
-// works with Clang 10 and GCC.
+// TODO: Replace with {apex|std}::source_location when possible. That said,
+// this works with Clang 10 and GCC.
 // This replaces using TSmalloc directly
 void* operator new (
   std::size_t,

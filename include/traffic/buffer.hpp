@@ -6,6 +6,7 @@
 
 namespace traffic {
 
+// NOT a marshal buffer, perhaps make the distinction?
 struct buffer {
   using handle_type = TSIOBuffer;
   using mark_type = std::int64_t;
