@@ -3,6 +3,8 @@
 
 #include <ts/ts.h>
 
+namespace traffic {
+
 struct session {
   using pointer = TSHttpSsn;
 
@@ -25,5 +27,8 @@ struct session {
 private:
   pointer handle;
 };
+
+} /* namespace traffic */
+
 
 #endif /* TRAFFIC_SESSION_HPP */
