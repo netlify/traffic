@@ -12,14 +12,13 @@
 // changes, and (minus the file name), the call to `std::to_string` shouldn't
 // allocate due to small string optimizations.
 // This will be easier to keep track of once we kick out ATS logging in other
-// plugins.
-// TODO: This just needs to be cleaned up. It's... gross 😑
-void* operator new (std::size_t size, traffic::track_t, char const* file, std::size_t length, int line) noexcept {
+// plugins, as we won't need to call _TSmalloc
+void* operator new (std::size_t size, traffic::track_t, apex::source_location loc) noexcept {
+  // TODO: use fmtlib with a 'static buffer' for this
   static thread_local std::string path { "memory/" };
-  path.reserve(length);
-  path.append(file)
+  path.append(loc.file_name())
       .append(":")
-      .append(std::to_string(line)); // this to_string will ALWAYS be a small object
+      .append(std::to_string(loc.line())); // this to_string will ALWAYS be a small object
   auto ptr = _TSmalloc(size, path.c_str());
   // This is effectively just setting the 'length' to index
   path.erase(__builtin_strlen("memory/")); // erase everything after "memory/", but don't deallocate

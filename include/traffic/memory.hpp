@@ -1,12 +1,35 @@
 #ifndef TRAFFIC_MEMORY_HPP
 #define TRAFFIC_MEMORY_HPP
 
+#include <apex/mixin/handle.hpp>
+#include <apex/memory/view.hpp>
+#include <apex/core/source.hpp>
+#include <apex/core/traits.hpp>
 #include <cstddef>
+#include <memory>
 
 namespace traffic {
 
+template <class T>
+struct default_delete {
+  static_assert(apex::is_complete_v<std::remove_pointer_t<T>>);
+  void operator () (T* ptr) const noexcept { delete ptr; }
+};
+
 struct track_t { };
 inline constexpr track_t track { };
+
+template <class T, class D=default_delete<T>>
+using unique_ptr = std::unique_ptr<T, D>;
+
+template <class T, class D=default_delete<T>>
+using unique_handle = apex::mixin::handle<T, unique_ptr<T, D>>;
+
+template <class T>
+using view_handle = apex::mixin::handle<
+  std::remove_pointer_t<T>,
+  apex::view_ptr<std::remove_pointer_t<T>>
+>;
 
 } /* namespace traffic */
 
@@ -16,11 +39,12 @@ inline constexpr track_t track { };
 void* operator new (
   std::size_t,
   traffic::track_t,
-  char const* file = __builtin_FILE(),
-  std::size_t length = __builtin_strlen(__builtin_strlen("memory/") + __builtin_FILE()) + 1 + __builtin_strlen(__builtin_FILE()),
-  int line = __builtin_LINE()) noexcept;
+  apex::source_location = apex::source_location::current()) noexcept;
 
 // Required to be defined, but only called if new throws, which ours does not
-void operator delete (void*, traffic::track_t, char const*, int);
+void operator delete (
+  void*,
+  traffic::track_t,
+  apex::source_location = apex::source_location::current()) noexcept;
 
 #endif /* TRAFFIC_MEMORY_HPP */

@@ -19,7 +19,8 @@ struct session {
   // TODO: use apex::outcome<int, exception_ptr>
   // int socket () const noexcept;
   // TODO: The below function *could* theoretically be called by our wrapper,
-  //       rather than expecting the user to do so.
+  //       rather than expecting the user to do so. This would allow us to be
+  //       exception safe, and reenable as needed
   // TODO: reenable with continue -> TS_EVENT_HTTP_CONTINUE
   //       reenable with error -> TS_EVENT_HTTP_ERROR
   // void reenable () noexcept;

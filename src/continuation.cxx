@@ -2,16 +2,18 @@
 
 namespace traffic {
 
-
-
-bool continuation::try_lock () noexcept {
-  return TSMutexLockTry(this->mutex()) == TS_SUCCESS;
+void default_delete<TSCont>::operator () (pointer ptr) const noexcept {
+  TSContDestroy(ptr);
 }
 
-void continuation::unlock () noexcept { return TSMutexUnlock(this->mutex()); }
-void continuation::lock () noexcept { return TSMutexLock(this->mutex()); }
+bool continuation::try_lock () noexcept {
+  return TSMutexLockTry(this->native_handle()) == TS_SUCCESS;
+}
 
-TSMutex continuation::mutex () const noexcept {
+void continuation::unlock () noexcept { return TSMutexUnlock(this->native_handle()); }
+void continuation::lock () noexcept { return TSMutexLock(this->native_handle()); }
+
+TSMutex continuation::native_handle () const noexcept {
   return TSContMutexGet(this->get());
 }
 

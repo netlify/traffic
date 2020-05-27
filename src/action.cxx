@@ -2,11 +2,11 @@
 
 namespace traffic {
 
-action::action (pointer handle) noexcept : handle { handle } { }
+action::action (pointer handle) noexcept :
+  view_handle<TSAction> { handle }
+{ }
 
 action::operator bool () const noexcept { return TSActionDone(this->get()); }
-
-action::pointer action::get () const noexcept { return this->handle; }
 
 void action::cancel () noexcept {
   if (not this->get()) { return; }

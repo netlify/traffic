@@ -1,6 +1,9 @@
 #ifndef TRAFFIC_CONTINUATION_HPP
 #define TRAFFIC_CONTINUATION_HPP
 
+#include <apex/mixin/handle.hpp>
+
+#include <traffic/cache.hpp>
 #include <ts/ts.h>
 
 #include <chrono>
@@ -22,7 +25,8 @@ enum class thread_pool {
 // We have a few goals for the design of traffic::continuation<T>
 // 1) Users are passed a reference to `this` continuation as the first
 //    parameter rather than the TSCont type, which they can retrieve via
-//    .get() (though lifetimes have to be understood)
+//    .get() (though lifetimes have to be understood by the user, so it isn't
+//    bulletproof)
 // 2) Continuation takes a type `T` as a template parameter. This type is
 //    stored as a value inside the continuation, and is returned via `.value()`
 //    by lvalue reference. We use static_asserts to ensure some guarantees
@@ -51,22 +55,23 @@ enum class thread_pool {
 // however in practice we'll just have users store any data inside the lambda
 // they pass in, and we just pass continuation& as needed.
 
+template <>
+struct default_delete<TSCont> {
+  using pointer = TSCont;
+  void operator () (pointer ptr) const noexcept;
+};
+
 // TODO: redesign this type (but keep it available as a lockable type)
-struct continuation {
+struct continuation : private unique_handle<TSCont> {
   using native_handle_type = TSMutex;
 
-  using callback_type = auto (*)(TSCont, TSEvent, void*) -> void;
-  continuation (callback_type const&) noexcept;
+  TSAction remove (cache::key const&);
 
   bool try_lock () noexcept;
   void unlock () noexcept;
   void lock () noexcept;
 
-  TSCont get () const noexcept;
-
-private:
-  TSMutex mutex () const noexcept;
-  TSCont handle;
+  native_handle_type native_handle () const noexcept;
 };
 
 } /* namespace traffic */
