@@ -13,7 +13,7 @@ bool continuation::try_lock () noexcept {
 void continuation::unlock () noexcept { return TSMutexUnlock(this->native_handle()); }
 void continuation::lock () noexcept { return TSMutexLock(this->native_handle()); }
 
-TSMutex continuation::native_handle () const noexcept {
+continuation::native_handle_type continuation::native_handle () const noexcept {
   return TSContMutexGet(this->get());
 }
 

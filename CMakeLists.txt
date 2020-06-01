@@ -46,9 +46,10 @@ add_library(${PROJECT_NAME})
 add_library(netlify::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 file(GLOB_RECURSE sources CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.cxx")
 target_sources(${PROJECT_NAME} PRIVATE ${sources})
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 target_compile_options(${PROJECT_NAME}
   PRIVATE
+    $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:${CMAKE_CXX_COMPILER_VERSION},10>>:-fconcepts>
     $<$<CXX_COMPILER_ID:Clang>:-fcolor-diagnostics>
     $<$<CXX_COMPILER_ID:GNU>:-fdiagnostics-color=always>
     $<$<CONFIG:Debug>:-fno-omit-frame-pointer>
