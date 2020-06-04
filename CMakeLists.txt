@@ -12,8 +12,9 @@ include(GNUInstallDirs)
 include(FetchContent)
 include(CTest)
 
+FetchContent_Declare(aegis GIT_REPOSTIROY git@github.com:netlify/aegis.git)
 FetchContent_Declare(apex GIT_REPOSITORY git@github.com:netlify/apex.git)
-FetchContent_MakeAvailable(apex)
+FetchContent_MakeAvailable(apex aegis)
 
 find_package(TrafficServer REQUIRED)
 find_package(SCCache)
@@ -70,5 +71,8 @@ target_include_directories(${PROJECT_NAME}
   PRIVATE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/src>)
-target_link_libraries(${PROJECT_NAME} PUBLIC netlify::apex TrafficServer::Core)
-
+target_link_libraries(${PROJECT_NAME}
+  PUBLIC
+    TrafficServer::Core
+    netlify::aegis
+    netlify::apex)

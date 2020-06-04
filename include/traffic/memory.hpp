@@ -2,6 +2,7 @@
 #define TRAFFIC_MEMORY_HPP
 
 #include <apex/mixin/handle.hpp>
+#include <apex/memory/retain.hpp>
 #include <apex/memory/view.hpp>
 #include <apex/core/source.hpp>
 #include <apex/core/traits.hpp>
@@ -16,6 +17,12 @@ struct default_delete {
   void operator () (T* ptr) const noexcept { delete ptr; }
 };
 
+template <class T>
+struct retain_traits {
+  static void increment (T* ptr) noexcept;
+  static void decrement (T* ptr) noexcept;
+};
+
 struct track_t { };
 inline constexpr track_t track { };
 
@@ -24,6 +31,9 @@ using unique_ptr = std::unique_ptr<T, D>;
 
 template <class T, class D=default_delete<T>>
 using unique_handle = apex::mixin::handle<T, unique_ptr<T, D>>;
+
+template <class T, class R=retain_traits<T>>
+using retain_handle = apex::mixin::handle<T, apex::retain_ptr<T, R>>;
 
 template <class T>
 using view_handle = apex::mixin::handle<

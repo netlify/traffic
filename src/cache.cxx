@@ -11,7 +11,7 @@ void default_delete<TSCacheKey>::operator () (pointer ptr) const noexcept {
 namespace traffic::cache {
 
 key::key (apex::span<apex::byte const> digest) noexcept :
-  handle { TSCacheKeyCreate() }
+  unique_handle<TSCacheKey> { TSCacheKeyCreate() }
 {
   TSCacheKeyDigestSet(
     this->get(),

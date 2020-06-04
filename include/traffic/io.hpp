@@ -30,11 +30,13 @@ struct stream final : private view_handle<TSVIO> {
 
   native_handle_type native_handle () const noexcept;
 
-  using view_handle<TSVIO>::get;
+  using handle_type::get;
 };
 
 struct buffer : private unique_handle<TSIOBuffer> {
   using mark_type = std::int64_t;
+
+  buffer (buffer const&) = delete;
 
   buffer (TSIOBufferSizeIndex) noexcept;
   buffer (stream const&) noexcept;
@@ -44,16 +46,20 @@ struct buffer : private unique_handle<TSIOBuffer> {
   mark_type mark () const noexcept;
   void mark (mark_type) noexcept;
 
-  using unique_handle<TSIOBuffer>::get;
+  using handle_type::get;
+private:
+  buffer (pointer) noexcept;
 };
 
 // NOTE: the underlying TSIOBufferReader interface changed between 8 and 9
-struct reader : private unique_handle<TSIOBufferReader> {
-  reader (reader const&) noexcept;
-
-  reader (stream const&) noexcept;
-  reader (buffer const&) noexcept;
-};
+//struct reader : private unique_handle<TSIOBufferReader> {
+//  reader (reader const&) noexcept;
+//
+//  reader (stream const&) noexcept;
+//  reader (buffer const&) noexcept;
+//private:
+//  reader (pointer) noexcept;
+//};
 
 } /* namespace traffic::io */
 

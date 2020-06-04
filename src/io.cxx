@@ -26,15 +26,19 @@ stream::native_handle_type stream::native_handle () const noexcept {
 }
 
 buffer::buffer (TSIOBufferSizeIndex size) noexcept :
-  unique_handle<TSIOBuffer> { TSIOBufferSizedCreate(size) }
+  buffer { TSIOBufferSizedCreate(size) }
 { }
 
 buffer::buffer (stream const& s) noexcept :
-  unique_handle<TSIOBuffer> { TSVIOBufferGet(s.get()) }
+  buffer { TSVIOBufferGet(s.get()) }
 { }
 
 buffer::buffer () noexcept :
-  unique_handle<TSIOBuffer> { TSIOBufferCreate() }
+  buffer { TSIOBufferCreate() }
+{ }
+
+buffer::buffer (pointer ptr) noexcept :
+  unique_handle<TSIOBuffer> { ptr }
 { }
 
 buffer::mark_type buffer::mark () const noexcept {
@@ -45,16 +49,20 @@ void buffer::mark (mark_type value) noexcept {
   TSIOBufferWaterMarkSet(this->get(), value);
 }
 
-reader::reader (reader const& that) noexcept :
-  unique_handle<TSIOBufferReader> { TSIOBufferReaderClone(that.get()) }
-{ }
-
-reader::reader (stream const& s) noexcept :
-  unique_handle<TSIOBufferReader> { TSVIOReaderGet(s.get()) }
-{ }
-
-reader::reader (buffer const& b) noexcept :
-  unique_handle<TSIOBufferReader> { TSIOBufferReaderAlloc(b.get()) }
-{ }
+//reader::reader (reader const& that) noexcept :
+//  reader { TSIOBufferReaderClone(that.get()) }
+//{ }
+//
+//reader::reader (stream const& s) noexcept :
+//  reader { TSVIOReaderGet(s.get()) }
+//{ }
+//
+//reader::reader (buffer const& b) noexcept :
+//  reader { b.get() }
+//{ }
+//
+//reader::reader (pointer ptr) noexcept :
+//  unique_handle<TSIOBufferReader> { ptr }
+//{ }
 
 } /* namespace traffic::io */

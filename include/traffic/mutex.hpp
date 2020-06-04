@@ -14,7 +14,7 @@ template <> struct default_delete<TSMutex> {
 // This is an *owned* mutex handle. If you need to 'borrow' or use
 // a continuations mutex, just use std::lock directly on the type, as they
 // each meet the lockable named requirement
-struct mutex : private unique_handle<TSMutex> {
+struct mutex : protected unique_handle<TSMutex> {
   using native_handle_type = TSMutex;
 
   mutex (mutex const&) = delete;

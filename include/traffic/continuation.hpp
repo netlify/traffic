@@ -62,7 +62,7 @@ struct default_delete<TSCont> {
 };
 
 // TODO: redesign this type (but keep it available as a lockable type)
-struct continuation : private unique_handle<TSCont> {
+struct continuation : protected unique_handle<TSCont> {
   using native_handle_type = TSMutex;
 
   TSAction remove (cache::key const&);
@@ -72,6 +72,7 @@ struct continuation : private unique_handle<TSCont> {
   void lock () noexcept;
 
   native_handle_type native_handle () const noexcept;
+
 };
 
 } /* namespace traffic */
