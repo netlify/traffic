@@ -10,7 +10,7 @@
 
 namespace traffic {
 
-enum class thread_pool {
+enum class [[deprecated]] thread_pool {
   task = TS_THREAD_POOL_TASK,
   net = TS_THREAD_POOL_NET,
   dns = TS_THREAD_POOL_DNS,

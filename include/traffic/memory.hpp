@@ -11,10 +11,10 @@
 
 namespace traffic {
 
+// This will only ever be specialized. It won't be  sitting out on its own.
 template <class T>
 struct default_delete {
-  static_assert(apex::is_complete_v<std::remove_pointer_t<T>>);
-  void operator () (T* ptr) const noexcept { delete ptr; }
+  void operator () (T* ptr) const noexcept = delete;
 };
 
 template <class T>

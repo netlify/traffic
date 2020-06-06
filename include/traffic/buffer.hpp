@@ -3,11 +3,18 @@
 
 #include <traffic/memory.hpp>
 #include <ts/ts.h>
-#include <cstdint>
 
 namespace traffic {
 
-// This is for a 'marshalled' buffer.
+template <> struct default_delete<TSMBuffer> {
+  using pointer = TSMBuffer;
+  void operator () (pointer) const noexcept;
+};
+
+struct buffer : private unique_handle<TSMBuffer> {
+  using handle_type::operator bool;
+  using handle_type::get;
+};
 
 } /* namespace traffic */
 
