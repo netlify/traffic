@@ -2,7 +2,7 @@
 #define TRAFFIC_MIME_HPP
 
 #include <traffic/memory.hpp>
-#include <traffic/buffer.hpp>
+#include <traffic/offset.hpp>
 #include <ts/ts.h>
 
 namespace traffic {
@@ -16,7 +16,7 @@ template <> struct default_delete<TSMimeParser> {
 
 namespace traffic::mime {
 
-struct header : private unique_handle<TSMLoc, buffer_delete> {
+struct header : private offset {
   using size_type = int;
 
 };
