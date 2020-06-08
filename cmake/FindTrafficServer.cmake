@@ -3,7 +3,7 @@ include(FindPackageHandleStandardArgs)
 find_library(TrafficServer_Management_LIBRARY NAMES tsmgmt PATH_SUFFIXES trafficserver)
 find_library(TrafficServer_Config_LIBRARY NAMES tsconfig PATH_SUFFIXES trafficserver)
 find_library(TrafficServer_CXX_LIBRARY NAMES tscppapi atscppapi PATH_SUFFIXES trafficserver)
-find_library(TrafficServer_LIBRARY NAMES tscore PATH_SUFFIXES trafficserver)
+find_library(TrafficServer_LIBRARY NAMES tscore tsutil PATH_SUFFIXES trafficserver)
 
 find_path(TrafficServer_Management_INCLUDE_DIR NAMES ts/mgmtapi.h)
 find_path(TrafficServer_Config_INCLUDE_DIR NAMES ts/ts.h)
