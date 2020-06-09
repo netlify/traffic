@@ -216,7 +216,9 @@ enum class ssl {
   first = TS_SSL_FIRST_HOOK,
   cert = TS_SSL_CERT_HOOK,
   servername = TS_SSL_SERVERNAME_HOOK,
+  #if TS_MAJOR_VERSION >= 8
   client = TS_SSL_VERIFY_CLIENT_HOOK,
+  #endif /* TS_MAJOR_VERSION >= 8 */
   last = TS_SSL_LAST_HOOK,
 };
 
