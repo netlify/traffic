@@ -1,20 +1,16 @@
 #ifndef TRAFFIC_SESSION_HPP
 #define TRAFFIC_SESSION_HPP
 
+#include <traffic/memory.hpp>
 #include <ts/ts.h>
 
 namespace traffic {
 
-struct session {
-  using pointer = TSHttpSsn;
+struct session : private view_handle<TSHttpSsn> {
+  using handle_type::handle_type;
 
-  session (pointer) noexcept;
-
-  pointer get () const noexcept;
-
-  int64_t id () const noexcept;
-
-  [[nodiscard]] bool is_internal () const noexcept;
+  [[nodiscard]] bool internal () const noexcept;
+  [[nodiscard]] int64_t id () const noexcept;
 
   // TODO: use apex::outcome<int, exception_ptr>
   // int socket () const noexcept;

@@ -1,4 +1,5 @@
 #include <traffic/continuation.hpp>
+#include <traffic/constants.hpp>
 
 namespace traffic {
 
@@ -7,7 +8,7 @@ void default_delete<TSCont>::operator () (pointer ptr) const noexcept {
 }
 
 bool continuation::try_lock () noexcept {
-  return TSMutexLockTry(this->native_handle()) == TS_SUCCESS;
+  return TSMutexLockTry(this->native_handle()) == traffic::success;
 }
 
 void continuation::unlock () noexcept { return TSMutexUnlock(this->native_handle()); }

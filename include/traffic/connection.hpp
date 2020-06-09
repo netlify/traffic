@@ -10,7 +10,6 @@ struct connection final {
   static connection server (TSHttpSsn) noexcept;
 
   bool is_ssl () const noexcept;
-private:
 };
 
 } /* namespace traffic */

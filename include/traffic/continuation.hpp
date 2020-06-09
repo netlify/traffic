@@ -1,21 +1,13 @@
 #ifndef TRAFFIC_CONTINUATION_HPP
 #define TRAFFIC_CONTINUATION_HPP
 
-#include <apex/mixin/handle.hpp>
-
+#include <traffic/memory.hpp>
 #include <traffic/cache.hpp>
 #include <ts/ts.h>
 
 #include <chrono>
 
 namespace traffic {
-
-enum class [[deprecated]] thread_pool {
-  task = TS_THREAD_POOL_TASK,
-  net = TS_THREAD_POOL_NET,
-  dns = TS_THREAD_POOL_DNS,
-  udp = TS_THREAD_POOL_UDP,
-};
 
 // The design of traffic::continuation is such that it meets a few known
 // standard C++ 'named requirements' (aka, legacy concepts). These include
@@ -64,8 +56,6 @@ struct default_delete<TSCont> {
 // TODO: redesign this type (but keep it available as a lockable type)
 struct continuation : protected unique_handle<TSCont> {
   using native_handle_type = TSMutex;
-
-  TSAction remove (cache::key const&);
 
   bool try_lock () noexcept;
   void unlock () noexcept;

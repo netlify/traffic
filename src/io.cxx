@@ -1,5 +1,7 @@
 #include <traffic/io.hpp>
 
+#include <traffic/constants.hpp>
+
 namespace traffic {
 
 void default_delete<TSIOBufferReader>::operator () (pointer ptr) const noexcept {
@@ -15,7 +17,7 @@ void default_delete<TSIOBuffer>::operator () (pointer ptr) const noexcept {
 namespace traffic::io {
 
 bool stream::try_lock () noexcept {
-  return TSMutexLockTry(this->native_handle()) == TS_SUCCESS;
+  return TSMutexLockTry(this->native_handle()) == traffic::success;
 }
 
 void stream::unlock () noexcept { return TSMutexUnlock(this->native_handle()); }

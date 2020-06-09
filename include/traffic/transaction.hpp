@@ -1,21 +1,34 @@
 #ifndef TRAFFIC_TRANSACTION_HPP
 #define TRAFFIC_TRANSACTION_HPP
 
+#include <traffic/session.hpp>
+#include <traffic/http.hpp>
 #include <ts/ts.h>
 
 namespace traffic {
 
-struct transaction {
-  using pointer = TSHttpTxn;
+struct transaction : view_handle<TSHttpTxn> {
 
-  bool is_websocket () const noexcept;
-  bool is_internal () const noexcept;
-  bool is_aborted () const noexcept;
+  http::header cached_response () const noexcept;
+  http::header cached_request () const noexcept;
 
-  pointer get () const noexcept;
+  http::header server_response () const noexcept;
+  http::header server_request () const noexcept;
 
-private:
-  pointer handle;
+  http::header response () const noexcept;
+  http::header request () const noexcept;
+
+  [[nodiscard]] traffic::session session () const noexcept;
+  [[nodiscard]] std::string_view tag () const noexcept;
+
+  [[nodiscard]] bool websocket () const noexcept;
+  [[nodiscard]] bool internal () const noexcept;
+  [[nodiscard]] bool aborted () const noexcept;
+
+  void mark (int) noexcept;
+  void dscp (int) noexcept;
+
+//  [[nodiscard]] url cache_lookup_url () const noexcept;
 };
 
 } /* namespace traffic */

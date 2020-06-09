@@ -1,7 +1,7 @@
 #include <traffic/http.hpp>
-#include <apex/core/utility.hpp>
 
-#include <array>
+#include <apex/core/utility.hpp>
+#include <apex/core/array.hpp>
 
 namespace {
 
@@ -96,6 +96,23 @@ constexpr bool check_status_code (std::array<status, N> const& array, status val
 
 namespace traffic {
 
+std::string_view to_string (method m) noexcept {
+  using namespace ::std::literals::string_view_literals;
+  switch (m) {
+    case method::UNKNOWN: return "UNKNOWN"sv;
+    case method::CONNECT: return "CONNECT"sv;
+    case method::OPTIONS: return "OPTIONS"sv;
+    case method::DELETE: return "DELETE"sv;
+    case method::PURGE: return "PURGE"sv;
+    case method::TRACE: return "TRACE"sv;
+    case method::HEAD: return "HEAD"sv;
+    case method::PUSH: return "PUSH"sv;
+    case method::PUT: return "PUT"sv;
+    case method::GET: return "GET"sv;
+  }
+  return ""sv;
+}
+
 void default_delete<TSHttpParser>::operator () (pointer ptr) const noexcept {
   TSHttpParserDestroy(ptr);
 }
@@ -104,9 +121,9 @@ void default_delete<TSHttpParser>::operator () (pointer ptr) const noexcept {
 
 namespace traffic::http {
 
-std::string_view header::method () const noexcept {
+std::string_view header::reason () const noexcept {
   int length { 0 };
-  auto text = TSHttpHdrHostGet(this->buffer(), this->get(), std::addressof(length));
+  auto text = TSHttpHdrReasonGet(this->buffer(), this->get(), std::addressof(length));
   return { text, static_cast<std::size_t>(length) };
 }
 
@@ -114,6 +131,46 @@ std::string_view header::host () const noexcept {
   int length { 0 };
   auto text = TSHttpHdrHostGet(this->buffer(), this->get(), std::addressof(length));
   return { text, static_cast<std::size_t>(length) };
+}
+
+enum status header::status () const noexcept {
+  auto value = TSHttpHdrStatusGet(this->buffer(), this->get());
+  return traffic::http::status { apex::to_underlying(value) };
+}
+
+enum method header::method () const noexcept {
+  int length { 0 };
+  auto text = TSHttpHdrMethodGet(this->buffer(), this->get(), std::addressof(length));
+  auto m = std::string_view(text, length);
+  if (m == "CONNECT") { return method::CONNECT; }
+  if (m == "OPTIONS") { return method::OPTIONS; }
+  if (m == "DELETE") { return method::DELETE; }
+  if (m == "PURGE") { return method::PURGE; }
+  if (m == "TRACE") { return method::TRACE; }
+  if (m == "HEAD") { return method::HEAD; }
+  if (m == "PUSH") { return method::PUSH; }
+  if (m == "PUT") { return method::PUT; }
+  if (m == "GET") { return method::GET; }
+  return method::UNKNOWN;
+}
+
+enum type header::type () const noexcept {
+  auto value = TSHttpHdrTypeGet(this->buffer(), this->get());
+  return traffic::http::type { apex::to_underlying(value) };
+}
+
+int header::version () const noexcept {
+  return TSHttpHdrVersionGet(this->buffer(), this->get());
+}
+
+struct url header::url () const noexcept {
+  TSMLoc location { };
+  auto result = TSHttpHdrUrlGet(this->buffer(), this->get(), std::addressof(location));
+  if (result != traffic::success) {
+    // TODO: Log error, maybe make this function noexcept(false). Alternatively, use an
+    // apex::outcome
+  }
+  return traffic::url { location, offset::deleter_type { this->buffer(), this->get() } };
 }
 
 header::size_type header::size () const noexcept {

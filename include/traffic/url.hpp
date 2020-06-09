@@ -7,6 +7,8 @@
 namespace traffic {
 
 struct url : private offset {
+  using offset::offset;
+
   std::string_view parameters () const noexcept;
   std::string_view password () const noexcept;
   std::string_view fragment () const noexcept;

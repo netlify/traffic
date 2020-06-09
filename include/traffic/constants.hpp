@@ -12,9 +12,12 @@
 //
 // No functions are forward declared here
 // This header is meant to have minimal impact
+//
+// TODO: Add TSOverridableConfigKey values
 namespace traffic {
 
 // not a class, but that's to more closely mimic the TS C API
+// i.e., we can do traffic::success and traffic::error
 enum result : std::underlying_type_t<TSReturnCode> {
   success = TS_SUCCESS,
   error = TS_ERROR,
@@ -53,18 +56,20 @@ enum class type : std::underlying_type_t<TSHttpType> {
 
 // No underlying type because we secretly convert it to and from a string_view
 // for use with the TSHttpHdrMethod(Get|Set) API
+// Unlike everything else, this is the ONE TIME we will use SCREAMING_SNAKE_CASE
+// and that is because of other programming language APIs using the upper case
+// names. Also delete is a keyword :'(
 enum class method {
-  unknown,
-  get,
-  post,
-  head,
-  connect,
-  remove, // instead of DELETE
-  options,
-  purge,
-  put,
-  trace,
-  push,
+  UNKNOWN,
+  GET,
+  HEAD,
+  CONNECT,
+  DELETE,
+  OPTIONS,
+  PURGE,
+  PUT,
+  TRACE,
+  PUSH,
 };
 
 // These constants are used for HTTP status codes. However we don't currently
@@ -213,6 +218,15 @@ enum class ssl {
   last = TS_SSL_LAST_HOOK,
 };
 
+enum class lifecycle : std::underlying_type_t<TSLifecycleHookID> {
+  ports_initialized = TS_LIFECYCLE_PORTS_INITIALIZED_HOOK,
+  ports_ready = TS_LIFECYCLE_PORTS_READY_HOOK,
+  cache_ready = TS_LIFECYCLE_CACHE_READY_HOOK,
+  message = TS_LIFECYCLE_MSG_HOOK,
+  client = TS_LIFECYCLE_CLIENT_SSL_CTX_INITIALIZED_HOOK,
+  server = TS_LIFECYCLE_SERVER_SSL_CTX_INITIALIZED_HOOK,
+};
+
 } /* namespace traffic::hook */
 
 namespace traffic::cache {
@@ -317,5 +331,26 @@ enum class outbound {
 #endif /* TS_VERSION_MAJOR >= 9 */
 
 } /* namespace traffic::event */
+
+// All overrides go here
+namespace traffic {
+
+constexpr bool operator == (TSReturnCode c, result r) noexcept {
+  return static_cast<std::underlying_type_t<TSReturnCode>>(c) == r;
+}
+
+constexpr bool operator != (TSReturnCode c, result r) noexcept {
+  return not (c == r);
+}
+
+constexpr bool operator == (result r, TSReturnCode c) noexcept {
+  return c == r;
+}
+
+constexpr bool operator != (result r, TSReturnCode c) noexcept {
+  return c != r;
+}
+
+} /* namespace traffic */
 
 #endif /* TRAFFIC_CONSTANTS_HPP */

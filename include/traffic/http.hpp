@@ -5,6 +5,7 @@
 #include <traffic/memory.hpp>
 #include <traffic/buffer.hpp>
 #include <traffic/offset.hpp>
+#include <traffic/url.hpp>
 #include <ts/ts.h>
 
 #include <string_view>
@@ -23,20 +24,19 @@ struct buffer;
 
 namespace traffic::http {
 
+std::string_view to_string (method) noexcept;
+
 struct header : private offset {
+  using offset::offset;
   using size_type = int;
 
-  // TODO: change this to use the enum class method
-  //void method (std::string_view) noexcept;
-  // This will NOT use an enum, however
-  //void reason (std::string_view) noexcept;
-  //void status (enum status) noexcept;
-
   std::string_view reason () const noexcept;
-  std::string_view method () const noexcept;
   std::string_view host () const noexcept;
 
+  traffic::url url () const noexcept;
+
   enum status status () const noexcept;
+  enum method method () const noexcept;
   enum type type () const noexcept;
   int version () const noexcept;
 

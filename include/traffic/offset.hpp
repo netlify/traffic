@@ -32,6 +32,9 @@ namespace traffic {
 // used around a given interface. AFAICT, the MLoc stands for marhsall location
 // however all the APIs use the term 'offset'. Hence the name of this class
 struct offset : private unique_handle<TSMLoc, impl::offset_delete> {
+  using deleter_type = impl::offset_delete;
+
+  using handle_type::handle_type;
   using handle_type::get;
 protected:
   TSMBuffer buffer () const noexcept;

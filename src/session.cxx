@@ -2,11 +2,8 @@
 
 namespace traffic {
 
-bool session::is_internal () const noexcept {
-  return TSHttpSsnIsInternal(this->get());
-}
-
-session::pointer session::get () const noexcept { return this->handle; }
+bool session::internal () const noexcept { return TSHttpSsnIsInternal(this->get()); }
+int64_t session::id () const noexcept { return TSHttpSsnIdGet(this->get()); }
 
 
 } /* namespace traffic */

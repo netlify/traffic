@@ -1,4 +1,6 @@
 #include <traffic/plugin.hpp>
+
+#include <traffic/constants.hpp>
 #include <ts/ts.h>
 
 
@@ -8,7 +10,7 @@
     traffic::plugin::vendor(),
     traffic::plugin::email()
   };
-  if (TSPluginRegister(&info) != TS_SUCCESS) {
+  if (TSPluginRegister(&info) != traffic::success) {
     TSError("[%s] Plugin registration failed", traffic::plugin::name());
   }
   // traffic::plugin::initialize(apex::arguments(argc, argv));
