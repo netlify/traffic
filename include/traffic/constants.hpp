@@ -194,10 +194,12 @@ enum class request {
   send = TS_HTTP_SEND_REQUEST_HDR_HOOK,
 };
 
+#if TS_MAJOR_VERSION >= 8
 enum class connection {
   start = TS_VCONN_START_HOOK,
   close = TS_VCONN_CLOSE_HOOK,
 };
+#endif /* TS_MAJOR_VERSION >= 8 */
 
 #if TS_MAJOR_VERSION >= 9
 enum class outbound {
@@ -311,8 +313,10 @@ enum class inbound {
   read_complete = TS_EVENT_VCONN_READ_COMPLETE,
   write_ready = TS_EVENT_VCONN_WRITE_READY,
   read_ready = TS_EVENT_VCONN_READ_READY,
+#if TS_VERSION_MAJOR >= 8
   start = TS_EVENT_VCONN_START,
   close = TS_EVENT_VCONN_CLOSE,
+#endif /* TS_VERSION_MAJOR >= 8 */
   eos = TS_EVENT_VCONN_EOS,
 };
 
