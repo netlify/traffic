@@ -12,7 +12,7 @@ include(GNUInstallDirs)
 include(FetchContent)
 include(CTest)
 
-FetchContent_Declare(aegis GIT_REPOSTIROY git@github.com:netlify/aegis.git)
+FetchContent_Declare(aegis GIT_REPOSITORY git@github.com:netlify/aegis.git)
 FetchContent_Declare(apex GIT_REPOSITORY git@github.com:netlify/apex.git)
 FetchContent_MakeAvailable(apex aegis)
 
