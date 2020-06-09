@@ -9,8 +9,10 @@ namespace traffic {
 struct session : private view_handle<TSHttpSsn> {
   using handle_type::handle_type;
 
+  #if TS_VERSION_MAJOR >= 8
   [[nodiscard]] bool internal () const noexcept;
   [[nodiscard]] int64_t id () const noexcept;
+  #endif /* TS_MAJOR_VERSION >= 8 */
 
   // TODO: use apex::outcome<int, exception_ptr>
   // int socket () const noexcept;
@@ -20,9 +22,6 @@ struct session : private view_handle<TSHttpSsn> {
   // TODO: reenable with continue -> TS_EVENT_HTTP_CONTINUE
   //       reenable with error -> TS_EVENT_HTTP_ERROR
   // void reenable () noexcept;
-
-private:
-  pointer handle;
 };
 
 } /* namespace traffic */
