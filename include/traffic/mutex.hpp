@@ -23,6 +23,8 @@ struct mutex : protected unique_handle<TSMutex> {
   mutex (native_handle_type) noexcept;
   mutex () noexcept;
 
+  using handle_type::operator bool;
+
   bool try_lock () noexcept;
   void unlock () noexcept;
   void lock () noexcept;

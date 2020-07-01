@@ -1,7 +1,5 @@
 #include <traffic/buffer.hpp>
 
-#include <apex/core/types.hpp>
-
 namespace traffic {
 
 // TODO: log the return code when it is *not* a TS_SUCCESS
