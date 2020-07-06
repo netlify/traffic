@@ -121,6 +121,10 @@ void default_delete<TSHttpParser>::operator () (pointer ptr) const noexcept {
 
 namespace traffic::http {
 
+void alternative_selection::operator = (float quality) noexcept {
+  TSHttpAltInfoQualitySet(this->get(), quality);
+}
+
 std::string_view header::reason () const noexcept {
   int length { 0 };
   auto text = TSHttpHdrReasonGet(this->buffer(), this->get(), std::addressof(length));

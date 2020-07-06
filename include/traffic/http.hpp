@@ -24,6 +24,13 @@ struct buffer;
 
 namespace traffic::http {
 
+struct alternative_selection final : private view_handle<TSHttpAltInfo> {
+  using handle_type::handle_type;
+  using handle_type::get;
+  void operator = (apex::convertible_to<int> auto) = delete;
+  void operator = (float quality) noexcept;
+};
+
 std::string_view to_string (method) noexcept;
 
 struct header : private offset {
