@@ -7,7 +7,10 @@
 
 namespace traffic {
 
-struct transaction : view_handle<TSHttpTxn> {
+struct transaction : private view_handle<TSHttpTxn> {
+
+  using handle_type::handle_type;
+  using handle_type::get;
 
   http::header cached_response () const noexcept;
   http::header cached_request () const noexcept;
@@ -24,6 +27,8 @@ struct transaction : view_handle<TSHttpTxn> {
   [[nodiscard]] bool websocket () const noexcept;
   [[nodiscard]] bool internal () const noexcept;
   [[nodiscard]] bool aborted () const noexcept;
+
+  [[nodiscard]] bool debug () const noexcept;
 
   void mark (int) noexcept;
   void dscp (int) noexcept;

@@ -61,6 +61,10 @@ bool transaction::aborted () const noexcept {
   return TSHttpTxnAborted(this->get()) == traffic::success;
 }
 
+bool transaction::debug () const noexcept {
+  return TSHttpTxnDebugGet(this->get());
+}
+
 //url transaction::cache_lookup_url () const noexcept {
 //  return TSHttpTxnCacheLookupUrlGet(
 //    this->get(),

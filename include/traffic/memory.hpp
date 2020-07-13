@@ -11,7 +11,8 @@
 
 namespace traffic {
 
-// This will only ever be specialized. It won't be  sitting out on its own.
+// This will only ever be specialized.
+// It won't be sitting out on its own.
 template <class T>
 struct default_delete {
   void operator () (T* ptr) const noexcept = delete;
