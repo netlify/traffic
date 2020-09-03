@@ -54,12 +54,12 @@ struct default_delete<TSCont> {
 };
 
 // TODO: redesign this type (but keep it available as a lockable type)
-struct continuation : protected unique_handle<TSCont> {
+struct [[clang::capability("mutex")]] continuation : protected unique_handle<TSCont> {
   using native_handle_type = TSMutex;
 
-  bool try_lock () noexcept;
-  void unlock () noexcept;
-  void lock () noexcept;
+  [[clang::try_acquire_capability(true)]] bool try_lock () noexcept;
+  [[clang::acquire_capability]] void unlock () noexcept;
+  [[clang::release_capability]] void lock () noexcept;
 
   native_handle_type native_handle () const noexcept;
 

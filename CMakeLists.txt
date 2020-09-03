@@ -1,14 +1,14 @@
 cmake_minimum_required(VERSION 3.16)
 include(FetchContent)
-FetchContent_Declare(cmake GIT_REPOSITORY https://github.com/netlify/cmake)
+FetchContent_Declare(cmake GIT_REPOSITORY https://github.com/netlify/cmake GIT_TAG main)
 FetchContent_MakeAvailable(cmake)
 set(CMAKE_PROJECT_INCLUDE ${NETLIFY_PROJECT_PRELUDE})
 project(traffic
   LANGUAGES CXX
   VERSION 0.1.0)
 
-FetchContent_Declare(aegis GIT_REPOSITORY git@github.com:netlify/aegis.git)
-FetchContent_Declare(apex GIT_REPOSITORY git@github.com:netlify/apex.git)
+FetchContent_Declare(aegis GIT_REPOSITORY https://github.com/netlify/aegis GIT_TAG main)
+FetchContent_Declare(apex GIT_REPOSITORY https://github.com/netlify/apex GIT_TAG main)
 FetchContent_MakeAvailable(apex aegis)
 
 find_package(TrafficServer REQUIRED)
@@ -20,6 +20,7 @@ target_sources(${PROJECT_NAME} PRIVATE ${sources})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 target_compile_options(${PROJECT_NAME}
   PRIVATE
+    ${--warn-thread-safety}
     ${--warn-unused-variable}
     ${--warn-strict-aliasing}
     ${--warn-uninitialized}
