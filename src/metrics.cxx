@@ -88,6 +88,9 @@ average& average::operator += (value_type value) noexcept {
   return *this;
 }
 
+average::operator value_type () const noexcept { return this->value(); }
+average::operator bool () const noexcept { return this->has_value(); }
+
 average::value_type average::value () const noexcept { return TSStatIntGet(this->handle); }
 bool average::has_value () const noexcept { return this->handle != TS_ERROR; }
 
