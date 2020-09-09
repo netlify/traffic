@@ -329,13 +329,6 @@ enum class net {
   accept = TS_EVENT_NET_ACCEPT,
 };
 
-#if TS_VERSION_MAJOR >= 9
-enum class outbound {
-  start = TS_EVENT_OUTBOUND_START,
-  close = TS_EVENT_OUTBOUND_CLOSE,
-};
-#endif /* TS_VERSION_MAJOR >= 9 */
-
 } /* namespace traffic::event */
 
 // All overrides go here
