@@ -11,28 +11,40 @@ template <> struct default_delete<TSMutex> {
   void operator () (pointer ptr) const noexcept;
 };
 
-// This is an *owned* mutex handle. If you need to 'borrow' or use
-// a continuations mutex, just use std::lock directly on the type, as they
-// each meet the lockable named requirement
+/* This is an *owned* mutex handle. A borrowed_mutex type is available,
+ * however it will be removed once all mutex-capable types are properly wrapped
+ * (TSCont, TSVConn, etc.). A release applying [[deprecated]] will be performed
+ * before this removal, however.
+ */
 struct [[clang::capability("mutex")]] mutex : protected unique_handle<TSMutex> {
   using native_handle_type = TSMutex;
 
-  mutex (mutex const&) = delete;
-  mutex& operator = (mutex const&) = delete;
+  using handle_type::handle_type;
+  using handle_type::operator bool;
 
-  mutex (native_handle_type) noexcept;
   mutex () noexcept;
 
+  [[clang::try_acquire_capability(true)]] bool try_lock () noexcept;
+  [[clang::release_capability]] void unlock () noexcept;
+  [[clang::acquire_capability]] void lock () noexcept;
+
+  native_handle_type native_handle () const noexcept;
+};
+
+struct [[clang::capability("mutex")]] borrowed_mutex : protected view_handle<TSMutex> {
+  using native_handle_type = TSMutex;
+
+  borrowed_mutex& operator = (borrowed_mutex const&) = delete;
+  borrowed_mutex (borrowed_mutex const&) = delete;
+
+  using handle_type::handle_type;
   using handle_type::operator bool;
 
   [[clang::try_acquire_capability(true)]] bool try_lock () noexcept;
-  [[clang::acquire_capability]] void unlock () noexcept;
-  [[clang::release_capability]] void lock () noexcept;
+  [[clang::release_capability]] void unlock () noexcept;
+  [[clang::acquire_capability]] void lock () noexcept;
 
   native_handle_type native_handle () const noexcept;
-
-private:
-  native_handle_type handle;
 };
 
 } /* namespace traffic */
