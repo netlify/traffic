@@ -92,7 +92,7 @@ void header::clear () noexcept {
 }
 
 parser::parser () noexcept :
-  handle_type { TSMimeParserCreate() }
+  resource_type { TSMimeParserCreate() }
 { }
 
 void parser::clear () noexcept { TSMimeParserClear(this->get()); }

@@ -37,8 +37,8 @@ struct offset : private unique_handle<TSMLoc, impl::offset_delete> {
 
   using pointer = typename deleter_type::pointer;
 
-  using handle_type::handle_type;
-  using handle_type::get;
+  using resource_type::resource_type;
+  using resource_type::get;
 protected:
   TSMBuffer buffer () const noexcept;
   TSMLoc parent () const noexcept;

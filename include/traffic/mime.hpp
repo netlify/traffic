@@ -83,8 +83,8 @@ struct parser : private unique_handle<TSMimeParser> {
 
   void clear () noexcept;
 
-  using handle_type::operator bool;
-  using handle_type::get;
+  using resource_type::operator bool;
+  using resource_type::get;
 };
 
 } /* namespace traffic::mime */

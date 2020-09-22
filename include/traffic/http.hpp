@@ -25,8 +25,8 @@ struct buffer;
 namespace traffic::http {
 
 struct alternative_selection final : private view_handle<TSHttpAltInfo> {
-  using handle_type::handle_type;
-  using handle_type::get;
+  using resource_type::resource_type;
+  using resource_type::get;
   void operator = (apex::convertible_to<int> auto) = delete;
   void operator = (float quality) noexcept;
 };
@@ -74,8 +74,8 @@ struct parser : private unique_handle<TSHttpParser> {
 
   void clear () noexcept;
 
-  using handle_type::operator bool;
-  using handle_type::get;
+  using resource_type::operator bool;
+  using resource_type::get;
 };
 
 bool is_informational (status) noexcept;

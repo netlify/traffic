@@ -8,7 +8,7 @@ void default_delete<TSMutex>::operator () (pointer ptr) const noexcept {
   TSMutexDestroy(ptr);
 }
 
-mutex::mutex () noexcept : handle_type { TSMutexCreate() } { }
+mutex::mutex () noexcept : resource_type { TSMutexCreate() } { }
 
 bool mutex::try_lock () noexcept {
   return TSMutexLockTry(this->get()) == traffic::success;

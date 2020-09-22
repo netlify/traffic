@@ -7,7 +7,7 @@
 namespace traffic {
 
 struct session : private view_handle<TSHttpSsn> {
-  using handle_type::handle_type;
+  using resource_type::resource_type;
 
   #if TS_VERSION_MAJOR >= 8
   [[nodiscard]] bool internal () const noexcept;

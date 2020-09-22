@@ -12,8 +12,8 @@ template <> struct default_delete<TSMBuffer> {
 };
 
 struct buffer : private unique_handle<TSMBuffer> {
-  using handle_type::operator bool;
-  using handle_type::get;
+  using resource_type::operator bool;
+  using resource_type::get;
 };
 
 } /* namespace traffic */

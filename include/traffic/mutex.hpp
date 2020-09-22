@@ -19,8 +19,8 @@ template <> struct default_delete<TSMutex> {
 struct [[clang::capability("mutex")]] mutex : protected unique_handle<TSMutex> {
   using native_handle_type = TSMutex;
 
-  using handle_type::handle_type;
-  using handle_type::operator bool;
+  using resource_type::resource_type;
+  using resource_type::operator bool;
 
   mutex () noexcept;
 
@@ -37,8 +37,8 @@ struct [[clang::capability("mutex")]] borrowed_mutex : protected view_handle<TSM
   borrowed_mutex& operator = (borrowed_mutex const&) = delete;
   borrowed_mutex (borrowed_mutex const&) = delete;
 
-  using handle_type::handle_type;
-  using handle_type::operator bool;
+  using resource_type::resource_type;
+  using resource_type::operator bool;
 
   [[clang::try_acquire_capability(true)]] bool try_lock () noexcept;
   [[clang::release_capability]] void unlock () noexcept;

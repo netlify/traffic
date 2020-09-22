@@ -182,7 +182,7 @@ header::size_type header::size () const noexcept {
 }
 
 parser::parser () noexcept :
-  handle_type { TSHttpParserCreate() }
+  resource_type { TSHttpParserCreate() }
 { }
 
 void parser::clear () noexcept { TSHttpParserClear(this->get()); }

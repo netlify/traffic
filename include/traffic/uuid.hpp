@@ -12,8 +12,8 @@ template <> struct default_delete<TSUuid> {
 };
 
 struct uuid : private unique_handle<TSUuid> {
-  using handle_type::handle_type;
-  using handle_type::get;
+  using resource_type::resource_type;
+  using resource_type::get;
 };
 
 std::string_view to_string (uuid) noexcept;

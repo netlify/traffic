@@ -21,7 +21,7 @@ namespace traffic::cache {
 struct key final : private unique_handle<TSCacheKey> {
   key (apex::span<apex::byte const>) noexcept;
 
-  using handle_type::get;
+  using resource_type::get;
 };
 
 } /* namespace traffic::cache */

@@ -9,8 +9,8 @@ namespace traffic {
 
 struct transaction : private view_handle<TSHttpTxn> {
 
-  using handle_type::handle_type;
-  using handle_type::get;
+  using resource_type::resource_type;
+  using resource_type::get;
 
   http::header cached_response () const noexcept;
   http::header cached_request () const noexcept;

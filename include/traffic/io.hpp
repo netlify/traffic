@@ -30,7 +30,7 @@ struct stream final : private view_handle<TSVIO> {
 
   native_handle_type native_handle () const noexcept;
 
-  using handle_type::get;
+  using resource_type::get;
 };
 
 struct buffer : private unique_handle<TSIOBuffer> {
@@ -46,7 +46,7 @@ struct buffer : private unique_handle<TSIOBuffer> {
   mark_type mark () const noexcept;
   void mark (mark_type) noexcept;
 
-  using handle_type::get;
+  using resource_type::get;
 private:
   buffer (pointer) noexcept;
 };
