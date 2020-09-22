@@ -33,6 +33,9 @@ namespace traffic {
 // however all the APIs use the term 'offset'. Hence the name of this class
 struct offset : private unique_handle<TSMLoc, impl::offset_delete> {
   using deleter_type = impl::offset_delete;
+  using buffer_type = TSMBuffer;
+
+  using pointer = typename deleter_type::pointer;
 
   using handle_type::handle_type;
   using handle_type::get;

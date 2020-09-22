@@ -174,7 +174,7 @@ struct url header::url () const noexcept {
     // TODO: Log error, maybe make this function noexcept(false). Alternatively, use an
     // apex::outcome
   }
-  return traffic::url { location, offset::deleter_type { this->buffer(), this->get() } };
+  return traffic::url { location, this->buffer(), this->get() };
 }
 
 header::size_type header::size () const noexcept {

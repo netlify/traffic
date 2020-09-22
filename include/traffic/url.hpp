@@ -7,7 +7,9 @@
 namespace traffic {
 
 struct url : private offset {
-  using offset::offset;
+  using pointer = typename offset::pointer;
+  url (pointer, TSMBuffer, pointer) noexcept;
+  url (pointer, TSMBuffer) noexcept;
 
   std::string_view parameters () const noexcept;
   std::string_view password () const noexcept;

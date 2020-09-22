@@ -17,6 +17,14 @@ std::string_view extract(extract_function_type fn, traffic::url const& url) {
 
 namespace traffic {
 
+url::url (pointer ptr, TSMBuffer buffer, pointer base) noexcept :
+  offset(ptr, offset::deleter_type(buffer, base))
+{ }
+
+url::url (pointer ptr, TSMBuffer buffer) noexcept :
+  offset(ptr, offset::deleter_type(buffer))
+{ }
+
 std::string_view url::parameters () const noexcept { return ::extract(TSUrlHttpParamsGet, *this); }
 std::string_view url::password () const noexcept { return ::extract(TSUrlPasswordGet, *this); }
 std::string_view url::fragment () const noexcept { return ::extract(TSUrlHttpFragmentGet, *this); }
