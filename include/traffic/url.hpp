@@ -11,19 +11,28 @@ struct url : private offset {
   url (pointer, TSMBuffer, pointer) noexcept;
   url (pointer, TSMBuffer) noexcept;
 
-  std::string_view parameters () const noexcept;
-  std::string_view password () const noexcept;
-  std::string_view fragment () const noexcept;
-  std::string_view scheme () const noexcept;
-  std::string_view query () const noexcept;
-  std::string_view path () const noexcept;
-  std::string_view host () const noexcept;
-  std::string_view user () const noexcept;
+  [[nodiscard]] std::string_view parameters () const noexcept;
+  [[nodiscard]] std::string_view password () const noexcept;
+  [[nodiscard]] std::string_view fragment () const noexcept;
+  [[nodiscard]] std::string_view scheme () const noexcept;
+  [[nodiscard]] std::string_view query () const noexcept;
+  [[nodiscard]] std::string_view path () const noexcept;
+  [[nodiscard]] std::string_view host () const noexcept;
+  [[nodiscard]] std::string_view user () const noexcept;
+  [[nodiscard]] int port () const noexcept;
 
-  explicit operator std::string () const;
+  void parameters (std::string_view) noexcept;
+  void password (std::string_view) noexcept;
+  void fragment (std::string_view) noexcept;
+  void scheme (std::string_view) noexcept;
+  void query (std::string_view) noexcept;
+  void path (std::string_view) noexcept;
+  void host (std::string_view) noexcept;
+  void user (std::string_view) noexcept;
+  void port (int) noexcept;
 
-  std::size_t size () const noexcept;
-  int port () const noexcept;
+  [[nodiscard]] std::size_t size () const noexcept;
+  [[nodiscard]] bool empty () const noexcept;
 
   using offset::buffer;
   using offset::parent;
