@@ -52,8 +52,8 @@ jobs:
           gh release download
           --repo netlify/trafficserver
           --dir ${{github.workspace}}/packages
-          --pattern *${{matrix.version}}*${{steps.download.outputs.type}}.ddeb
-          --pattern *${{matrix.version}}*${{steps.download.outputs.type}}.deb
+          --pattern *${{matrix.version}}*${{steps.download.outputs.type}}*.ddeb
+          --pattern *${{matrix.version}}*${{steps.download.outputs.type}}*.deb
       - name: Install Dependencies
         run: sudo apt install --yes ${{github.workspace}}/packages/*.deb
       - name: Configure Project
