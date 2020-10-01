@@ -60,6 +60,7 @@ jobs:
         run: >
           cmake -B${{github.workspace}}/build -S${{github.workspace}}
           -DCMAKE_BUILD_TYPE=${{matrix.build-type}}
+          -DCMAKE_PREFIX_PATH=/opt/ts
           -DTRAFFIC_WITH_${{matrix.sanitizer}}=YES
       - name: Build Project
         run: cmake --build build
