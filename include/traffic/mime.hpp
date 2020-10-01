@@ -18,6 +18,15 @@ template <> struct default_delete<TSMimeParser> {
 
 namespace traffic::mime {
 
+struct parser : private unique_handle<TSMimeParser> {
+  parser () noexcept;
+
+  [[clang::reinitializes]] void clear () noexcept;
+
+  using resource_type::operator bool;
+  using resource_type::get;
+};
+
 using time_point = std::chrono::system_clock::time_point;
 struct field;
 
@@ -76,15 +85,6 @@ struct header : private offset {
   // iterator find (std::string_view) const noexcept;
   size_type size () const noexcept;
   void clear () noexcept;
-};
-
-struct parser : private unique_handle<TSMimeParser> {
-  parser () noexcept;
-
-  void clear () noexcept;
-
-  using resource_type::operator bool;
-  using resource_type::get;
 };
 
 } /* namespace traffic::mime */

@@ -72,7 +72,7 @@ struct parser_iterator;
 struct parser : private unique_handle<TSHttpParser> {
   parser () noexcept;
 
-  void clear () noexcept;
+  [[clang::reinitializes]] void clear () noexcept;
 
   using resource_type::operator bool;
   using resource_type::get;
