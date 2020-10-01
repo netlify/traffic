@@ -12,6 +12,7 @@ jobs:
         sanitizer: [ASAN, UBSAN]
     env:
       CMAKE_GENERATOR: Ninja
+      GITHUB_TOKEN: ${{github.token}}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
