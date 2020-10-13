@@ -15,6 +15,8 @@ template <> struct default_delete<TSUuid> {
 
 struct uuid : private unique_handle<TSUuid> {
 
+  uuid () noexcept;
+
   static apex::optional<uuid> parse (std::string const&) noexcept;
   static apex::optional<uuid> parse (apex::zstring_view) noexcept;
   static apex::optional<uuid> parse (char const*) noexcept;
@@ -22,6 +24,8 @@ struct uuid : private unique_handle<TSUuid> {
   using resource_type::resource_type;
   using resource_type::operator bool;
   using resource_type::get;
+
+  [[clang::reinitializes]] void regenerate () noexcept;
 
   char const* data () const noexcept;
   size_t size () const noexcept; /* O(n) operation */
