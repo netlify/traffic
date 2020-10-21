@@ -18,6 +18,10 @@ void mutex::lock () noexcept { TSMutexLock(this->get()); }
 
 mutex::native_handle_type mutex::native_handle () const noexcept { return this->get(); }
 
+borrowed_mutex::borrowed_mutex (TSCont cont) noexcept :
+  borrowed_mutex(TSContMutexGet(cont))
+{ }
+
 bool borrowed_mutex::try_lock () noexcept {
   return TSMutexLockTry(this->get()) == traffic::success;
 }
