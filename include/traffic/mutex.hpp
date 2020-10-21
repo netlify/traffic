@@ -34,6 +34,8 @@ struct [[clang::capability("mutex")]] mutex : protected unique_handle<TSMutex> {
 struct [[clang::capability("mutex")]] borrowed_mutex : protected view_handle<TSMutex> {
   using native_handle_type = TSMutex;
 
+  borrowed_mutex (TSCont cont) noexcept;
+
   borrowed_mutex& operator = (borrowed_mutex const&) = delete;
   borrowed_mutex (borrowed_mutex const&) = delete;
 
