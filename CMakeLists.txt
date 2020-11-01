@@ -57,15 +57,13 @@ install(DIRECTORY include/
   FILES_MATCHING
     PATTERN "*.hpp")
 
-if (TRAFFIC_BUILD_DOCS)
-  set_property(TARGET docs
-    APPEND PROPERTY SPHINX_BUILD_DEFINITIONS
-      "project=Netlify Traffic 🚦"
-      "copyright=Netlify, Inc."
-      html_theme_options.github_user=netlify
-      html_theme_options.github_repo=traffic)
-  set_property(TARGET docs PROPERTY SPHINX_BUILD_COLOR ON)
-endif()
+set_property(TARGET sphinx::traffic PROPERTY SPHINX_GITHUB_USER "netlify")
+set_property(TARGET sphinx::traffic PROPERTY SPHINX_GITHUB_REPO "traffic")
+
+set_property(TARGET sphinx::traffic PROPERTY SPHINX_PROJECT_COPYRIGHT "Netlify Inc")
+set_property(TARGET sphinx::traffic PROPERTY SPHINX_PROJECT_NAME "Netlify Traffic")
+
+set_property(TARGET sphinx::traffic PROPERTY SPHINX_CONSOLE_COLOR ON)
 
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   feature_summary(DEFAULT_DESCRIPTION WHAT ALL)
