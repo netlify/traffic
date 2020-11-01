@@ -1,5 +1,9 @@
 name: Build
-on: push
+on:
+  push:
+    paths-ignore:
+      - docs/**
+      - .github/workflows/docs.yml
 jobs:
   build:
     name: Build Traffic
@@ -34,19 +38,7 @@ jobs:
           lld-10
       - name: Select Download Build Type
         id: download
-        run: |
-          if test "${{matrix.build-type}}" = "Debug"
-          then
-            echo ::set-output name=type::debug
-          elif test "${{matrix.build-type}}" = "Release"
-          then
-            echo ::set-output name=type::release
-          elif test "${{matrix.build-type}}" = "RelWithDebInfo"
-          then
-            echo ::set-output name=type::relwithdebinfo
-          else
-            echo ::error 
-          fi
+        run: echo "::set-output name=type::$(echo ${{matrix.build-type}} | tr '[:upper:]' '[:lower:]')"
       - name: Download Dependencies
         run: >
           gh release download
