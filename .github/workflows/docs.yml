@@ -46,10 +46,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends libssl-dev
           sudo apt install --yes --no-install-recommends ./packages/*.deb
-       - name: Configure Projecct
-         run: >
-           cmake -B${{github.workspace}}/build -S${{github.workspace}}
+      - name: Configure Projecct
+        run: >
+          cmake -B${{github.workspace}}/build -S${{github.workspace}}
           -DTRAFFIC_BUILD_DOCS=ON
           -DCMAKE_PREFIX_PATH=/opt/ts
-        - name: Build Documentation
-          run: cmake --build build --target docs
+      - name: Build Documentation
+        run: cmake --build build --target docs
