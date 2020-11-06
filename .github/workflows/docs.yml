@@ -19,14 +19,14 @@ jobs:
           python-version: '3.x'
       - name: Get Pip Cache Directory
         run: echo "::set-output name=dir::$(pip cache dir)"
-        id: pip-cahce
+        id: pip-cache
       - name: Cache Dependencies
         uses: actions/cache@v2
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
           key: ${{runner.os}}-pip-${{ hashFiles('docs/**') }}
           restore-keys: |
-            ${{ runner.os }}-pip
+            ${{ runner.os }}-pip-
             ${{ runner.os }}
       - name: Update Pip
         run: python -m pip install --upgrade pip
