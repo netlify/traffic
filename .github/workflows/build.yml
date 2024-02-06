@@ -38,7 +38,7 @@ jobs:
           lld-10
       - name: Select Download Build Type
         id: download
-        run: echo "::set-output name=type::$(echo ${{matrix.build-type}} | tr '[:upper:]' '[:lower:]')"
+        run: echo "type=$(echo ${{matrix.build-type}} | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
       - name: Download Dependencies
         run: >
           gh release download
